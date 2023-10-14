@@ -1,0 +1,71 @@
+Table Household {
+  house_id INT [pk]
+  house_type_id INT
+  electric_source_id INT
+  landuse_owned FLOAT
+  landuse_rent FLOAT
+  collector_id INT
+}
+
+
+
+Table House_type {
+  house_type_id INT [pk]
+  house_type_name VARCHAR(100)
+}
+
+
+
+Table Electric_source {
+  electric_source_id INT [pk]
+  electric_source VARCHAR(100)
+}
+
+
+Table Water_period {
+  water_period_id INT [pk]
+  water_period VARCHAR(100)
+}
+
+
+Table Water_source {
+  water_source_id INT [pk]
+  water_source VARCHAR(100)
+}
+
+
+Table Water_use {
+  water_use_id INT [pk]
+  house_water_use_id INT 
+  water_use_period_id INT
+  start_date DATE
+  end_date DATE
+  water_use_source_id INT
+}
+
+Table Water_drink {
+  water_drink_id INT [pk]
+  house_water_drink_id INT 
+  water_drink_period_id INT
+  start_date DATE
+  end_date DATE
+  water_drink_source_id INT
+}
+
+Table Collector {
+  collector_id INT [pk]
+  name VARCHAR(20)
+  surname VARCHAR(20)
+  phone VARCHAR(10)
+  company VARCHAR(100)
+}
+
+Ref {Household.house_type_id > House_type.house_type_id}
+Ref {Household.electric_source_id > Electric_source.electric_source_id}
+Ref {Household.house_id < Water_use.house_water_use_id}
+Ref {Household.house_id - Water_drink.house_water_drink_id}
+Ref {Water_use.water_use_source_id > Water_source.water_source_id}
+Ref {Water_use.water_use_period_id > Water_period.water_period_id}
+Ref {Water_drink.water_drink_source_id > Water_source.water_source_id}
+Ref {Water_drink.water_drink_period_id > Water_period.water_period_id}
+Ref {Household.collector_id > Collector.collector_id}
